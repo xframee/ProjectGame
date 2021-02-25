@@ -1,10 +1,11 @@
 import pygame 
 import sys
-from settings import *
+from settings import*
 from sprites import *
 
 class Game:
     def __init__(self):
+<<<<<<< HEAD
         pygame.init()
         self.screen = pygame.display.set_mode((500,500))
     
@@ -16,5 +17,4 @@ class Game:
                 if event.type == pygame.QUIT:
                     running = False
 
-        
-
+ 
