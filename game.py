@@ -1,20 +1,40 @@
-import pygame 
+import pygame
 import sys
-from settings import*
 from sprites import *
+from settings import *
 
 class Game:
-    def __init__(self):
-<<<<<<< HEAD
+    def __init__ (self):
         pygame.init()
-        self.screen = pygame.display.set_mode((500,500))
+        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+    def setup(self):
+        pass
+
+    def running (self):
+        running = True
+        while running: 
+            self.events()
+
+
+    def quit(self):
+        pygame.quit()
+        sys.exit()
+
+    def events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.quit()
+            if event.type == pygame.KEYDOWN: 
+                if event.key == pygame.K_ESCAPE: 
+                    self.quit()
     
-    def run(self): 
-        # kører spillet = True, for at stoppe spil = False
-        self.running = True 
-        While self.running: 
-            for event in pygame.event.get(): 
-                if event.type == pygame.QUIT:
-                    running = False
+    def startScreen(self):
+        pass
+    
+    
+g = Game()
+while True:
+    g.running()     
 
  
