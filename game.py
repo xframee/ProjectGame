@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-from settings import *
+from settings import*
 from sprites import *
 
 class Game:
@@ -9,17 +9,18 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
-        pg.key.set_repeat(500, 100)
+        pg.key.set_repeat(200, 100)
         self.load_data()
 
     def load_data(self):
+        #Will be filled later
         pass
 
     def new(self):
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
-        self.walls = pg.sprite.Group()
         self.player = Player(self, 10, 10)
+        self.walls = pg.sprite.Group()
         for x in range(10, 20):
             Wall(self, x, 5)
 
@@ -70,6 +71,7 @@ class Game:
                     self.player.move(dy=1)
 
     def show_start_screen(self):
+        #Show titlescreen
         pass
 
     def show_go_screen(self):
