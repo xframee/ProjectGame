@@ -16,6 +16,7 @@ class Game:
         running = True
         while running: 
             self.events()
+            self.drawToScreen()
 
     def quit(self):
         pygame.quit()
@@ -23,11 +24,13 @@ class Game:
 
     def grid (self):
         for x in range (0, WIDTH, TILESIZE):
-            pygame.draw.line(self.screen)
+            pygame.draw.line(self.screen, RED, (x, 0), (x, HEIGHT))
         for y in range (0, HEIGHT, TILESIZE):
-            pass
+            pygame.draw.line(self.screen, RED, (0, y) , (WIDTH, y))
 
     def drawToScreen(self):
+        self.screen.fill(BLACK)
+        self.grid()
         pygame.display.flip() # Flip til sidst for optimering
 
     def events(self):
