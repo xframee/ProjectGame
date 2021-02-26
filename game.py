@@ -6,7 +6,8 @@ from settings import *
 class Game:
     def __init__ (self):
         pygame.init()
-        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption(GAME_TITLE)
 
     def setup(self):
         pass
@@ -16,10 +17,18 @@ class Game:
         while running: 
             self.events()
 
-
     def quit(self):
         pygame.quit()
         sys.exit()
+
+    def grid (self):
+        for x in range (0, WIDTH, TILESIZE):
+            pygame.draw.line(self.screen)
+        for y in range (0, HEIGHT, TILESIZE):
+            pass
+
+    def drawToScreen(self):
+        pygame.display.flip() # Flip til sidst for optimering
 
     def events(self):
         for event in pygame.event.get():
