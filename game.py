@@ -8,19 +8,28 @@ class Game:
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
+        pygame.key.set_repeat(100, 100)
 
     def setup(self):
-        pass
+        pass 
+
+    def newSprite(self):
+        self.all_sprites = pygame.sprite.Group()
+        self.player = Player(self, 5, 5)
 
     def running (self):
-        running = True
-        while running: 
+        self.running = True
+        while self.running: 
             self.events()
+            self.update()
             self.drawToScreen()
 
     def quit(self):
         pygame.quit()
         sys.exit()
+
+    def update(self):
+        self.all_sprites.update()    
 
     def grid (self):
         for x in range (0, WIDTH, TILESIZE):
@@ -31,6 +40,7 @@ class Game:
     def drawToScreen(self):
         self.screen.fill(BLACK)
         self.grid()
+        self.all_sprites.draw(self.screen)
         pygame.display.flip() # Flip til sidst for optimering
 
     def events(self):
@@ -40,6 +50,14 @@ class Game:
             if event.type == pygame.KEYDOWN: 
                 if event.key == pygame.K_ESCAPE: 
                     self.quit()
+                if event.key == pygame.K_a:
+                    self.player.move(dx=-1)
+                if event.key == pygame.K_d:
+                    self.player.move(dx=+1)
+                if event.key == pygame.K_w:
+                    self.player.move(dy=-1)
+                if event.key == pygame.K_s:
+                    self.player.move(dy=+1)
     
     def startScreen(self):
         pass
@@ -47,6 +65,7 @@ class Game:
     
 g = Game()
 while True:
+    g.newSprite()
     g.running()     
 
  
