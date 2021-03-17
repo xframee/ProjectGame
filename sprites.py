@@ -9,8 +9,7 @@ class Player(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.game = game
-        self.image = pygame.Surface([TILESIZE, TILESIZE])
-        self.image.fill(YELLOW)
+        self.image = pygame.image.load('player1.png')
         self.rect = self.image.get_rect()
         self.groups = game.all_sprites
     
