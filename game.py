@@ -4,12 +4,13 @@ import os
 import pytmx
 from sprites import *
 from settings import *
+from camera import *
 
 
 class Game:
     def __init__ (self):
         pygame.init()
-        os.chdir("Desktop\RUC\Kurser\SD\ProjectGame")
+        os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         pygame.key.set_repeat(100, 100)
@@ -20,6 +21,7 @@ class Game:
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
         self.player = Player(self, 5, 5)
+  
 
     def running (self):
         self.running = True
@@ -33,7 +35,8 @@ class Game:
         sys.exit()
 
     def update(self):
-        self.all_sprites.update()    
+        self.all_sprites.update()
+    
 
     def drawToScreen(self):
         gameMap = pytmx.load_pygame('map2.tmx')
