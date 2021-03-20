@@ -1,17 +1,21 @@
 import pygame
 import sys
+import os
+import pytmx
 from sprites import *
 from settings import *
+
 
 class Game:
     def __init__ (self):
         pygame.init()
+        os.chdir("Desktop\RUC\Kurser\SD\ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         pygame.key.set_repeat(100, 100)
 
     def setup(self):
-        pass 
+      pass  
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
@@ -31,15 +35,13 @@ class Game:
     def update(self):
         self.all_sprites.update()    
 
-    def grid (self):
-        for x in range (0, WIDTH, TILESIZE):
-            pygame.draw.line(self.screen, RED, (x, 0), (x, HEIGHT))
-        for y in range (0, HEIGHT, TILESIZE):
-            pygame.draw.line(self.screen, RED, (0, y) , (WIDTH, y))
-
     def drawToScreen(self):
-        self.screen.fill(BLACK)
-        self.grid()
+        gameMap = pytmx.load_pygame('map2.tmx')
+        for layer in gameMap.visible_layers:
+            for x, y, gid, in layer:
+                tile = gameMap.get_tile_image_by_gid(gid)
+                if(tile):
+                    self.screen.blit(tile, (x * gameMap.tilewidth, y * gameMap.tileheight))
         self.all_sprites.draw(self.screen)
         pygame.display.flip() # Flip til sidst for optimering
 
@@ -51,13 +53,13 @@ class Game:
                 if event.key == pygame.K_ESCAPE: 
                     self.quit()
                 if event.key == pygame.K_a:
-                    self.player.move(dx=-1)
+                    self.player.move(dx=-10)
                 if event.key == pygame.K_d:
-                    self.player.move(dx=+1)
+                    self.player.move(dx=+10)
                 if event.key == pygame.K_w:
-                    self.player.move(dy=-1)
+                    self.player.move(dy=-10)
                 if event.key == pygame.K_s:
-                    self.player.move(dy=+1)
+                    self.player.move(dy=+10)
     
     def startScreen(self):
         pass
