@@ -2,26 +2,26 @@ import pygame
 import sys
 import os
 import pytmx
+from sprites import *
 from settings import *
-
+from camera import *
 
 
 class Game:
     def __init__ (self):
         pygame.init()
         os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame")
-        self.playerImage = pygame.image.load('player1.png')
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         pygame.key.set_repeat(100, 100)
 
-        self.cameraX = 0
-        self.cameraY = 0
-        self.playerX = 10  
-        self.playerY = 10
-
     def setup(self):
       pass  
+
+    def newSprite(self):
+        self.all_sprites = pygame.sprite.Group()
+        self.player = Player(self, 5, 5)
+  
 
     def running (self):
         self.running = True
@@ -35,8 +35,9 @@ class Game:
         sys.exit()
 
     def update(self):
-        pass
+        self.all_sprites.update()
     
+
     def drawToScreen(self):
         gameMap = pytmx.load_pygame('map2.tmx')
         for layer in gameMap.visible_layers:
@@ -44,7 +45,7 @@ class Game:
                 tile = gameMap.get_tile_image_by_gid(gid)
                 if(tile):
                     self.screen.blit(tile, (x * gameMap.tilewidth, y * gameMap.tileheight))
-        self.screen.blit(self.playerImage, (self.playerX, self.playerY))
+        self.all_sprites.draw(self.screen)
         pygame.display.flip() # Flip til sidst for optimering
 
     def events(self):
@@ -55,13 +56,13 @@ class Game:
                 if event.key == pygame.K_ESCAPE: 
                     self.quit()
                 if event.key == pygame.K_a:
-                    self.playerX -= 5
+                    self.player.move(dx=-10)
                 if event.key == pygame.K_d:
-                    self.playerX += 5
+                    self.player.move(dx=+10)
                 if event.key == pygame.K_w:
-                    self.playerY -= 5
+                    self.player.move(dy=-10)
                 if event.key == pygame.K_s:
-                    self.playerY += 5
+                    self.player.move(dy=+10)
     
     def startScreen(self):
         pass
@@ -69,6 +70,7 @@ class Game:
     
 g = Game()
 while True:
+    g.newSprite()
     g.running()     
 
  
