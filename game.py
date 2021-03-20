@@ -14,13 +14,17 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         pygame.key.set_repeat(100, 100)
+        self.setup()
 
     def setup(self):
-      pass  
+        self.map = TiledMap('map2.tmx')
+        self.map_img = self.map.make_map()
+        self.map_rect = self.map_img.get_rect()
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
         self.player = Player(self, 5, 5)
+        self.camera = Camera(self.map.width, self.map.height)
   
 
     def running (self):
@@ -36,17 +40,15 @@ class Game:
 
     def update(self):
         self.all_sprites.update()
+        self.camera.update(self.player)
     
 
     def drawToScreen(self):
-        gameMap = pytmx.load_pygame('map2.tmx')
-        for layer in gameMap.visible_layers:
-            for x, y, gid, in layer:
-                tile = gameMap.get_tile_image_by_gid(gid)
-                if(tile):
-                    self.screen.blit(tile, (x * gameMap.tilewidth, y * gameMap.tileheight))
-        self.all_sprites.draw(self.screen)
+        self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
+        for sprite in self.all_sprites:
+            self.screen.blit(sprite.image, self.camera.apply(sprite))
         pygame.display.flip() # Flip til sidst for optimering
+     
 
     def events(self):
         for event in pygame.event.get():
