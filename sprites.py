@@ -10,6 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.y = y
         self.game = game
         self.image = pygame.image.load('player1.png')
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.groups = game.all_sprites
     
