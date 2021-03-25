@@ -23,7 +23,7 @@ class Game:
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
-        self.player = Player(self, 5, 5)
+        self.player = Player(self, 300, 5)
         self.camera = Camera(self.map.width, self.map.height)
   
 
@@ -51,6 +51,9 @@ class Game:
      
 
     def events(self):
+           
+        self.map.objectlayer()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit()
