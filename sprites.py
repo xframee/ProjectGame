@@ -20,4 +20,4 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x = self.x 
-        self.rect.y = self.y 
+        self.rect.y = self.y

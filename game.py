@@ -4,13 +4,11 @@ import os
 import pytmx
 from sprites import *
 from settings import *
-from camera import *
-
 
 class Game:
     def __init__ (self):
         pygame.init()
-        os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame")
+        os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         pygame.key.set_repeat(100, 100)
