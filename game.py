@@ -4,6 +4,7 @@ import os
 import pytmx
 from sprites import *
 from settings import *
+from camera import *
 
 class Game:
     def __init__ (self):
@@ -21,9 +22,10 @@ class Game:
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
-        self.player = Player(self, 300, 5)
         self.camera = Camera(self.map.width, self.map.height)
-  
+        for tile_obj in self.map.tmxdata.objects: #This part
+            if tile_obj.name == 'spawn': #Does not
+                self.player = Player(self, 3, 3) #Work
 
     def running (self):
         self.running = True
@@ -50,7 +52,7 @@ class Game:
 
     def events(self):
            
-        self.map.objectlayer()
+        #self.map.objectlayer()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -75,5 +77,7 @@ g = Game()
 while True:
     g.newSprite()
     g.running()     
+
+      
 
  

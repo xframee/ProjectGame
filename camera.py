@@ -18,13 +18,6 @@ class TiledMap:
                     tile = ti(gid)
                     if(tile):
                         surface.blit(tile, (x * self.tmxdata.tilewidth, y * self.tmxdata.tileheight))
-    
-    def objectlayer(self):
-        for layer in self.tmxdata.visible_layers:
-            if isinstance(layer, pytmx.TiledObjectGroup):
-                for obj in layer:
-                    if pygame.Rect(obj.x, obj.y, obj.width, obj.height).colliderect(Player.rect.x) == True:
-                        print("Nice hit")
         
     def make_map(self):
         temp_surface = pygame.Surface((self.width, self.height))
