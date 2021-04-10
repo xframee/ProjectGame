@@ -12,20 +12,19 @@ class Game:
         os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
-        pygame.key.set_repeat(100, 100)
+        pygame.key.set_repeat(20, 100)
         self.setup()
 
     def setup(self):
         self.map = TiledMap('map2.tmx')
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
+        self.pytmx_map = pytmx.load_pygame('map2.tmx')
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
-        for tile_obj in self.map.tmxdata.objects: #This part
-            if tile_obj.name == 'spawn': #Does not
-                self.player = Player(self, 3, 3) #Work
+        self.player = Player(self, 400, 3)
 
     def running (self):
         self.running = True
@@ -52,7 +51,13 @@ class Game:
 
     def events(self):
            
-        #self.map.objectlayer()
+        for layer in self.pytmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledObjectGroup):
+                if layer.name == "Trees object":
+                    for obj in layer:
+                        if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
+                            print ("I love turtles")
+                            break
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

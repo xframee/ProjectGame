@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('player1.png')
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
+        self.hitbox = pygame.Rect.inflate(self.rect,0,0)
         self.groups = game.all_sprites
     
     def playerRect(self):
