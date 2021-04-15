@@ -9,7 +9,7 @@ from camera import *
 class Game:
     def __init__ (self):
         pygame.init()
-        os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame")
+        os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         pygame.key.set_repeat(20, 100)
@@ -24,7 +24,7 @@ class Game:
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
-        self.player = Player(self, 400, 3)
+        self.player = Player(self, 400, 70)
 
     def running (self):
         self.running = True
@@ -53,10 +53,28 @@ class Game:
            
         for layer in self.pytmx_map.visible_layers:
             if isinstance(layer, pytmx.TiledObjectGroup):
-                if layer.name == "Trees object":
+                if layer.name == "Trees_left":
                     for obj in layer:
                         if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
-                            print ("I love turtles")
+                            print ("Træ venstre")
+                            break
+
+                if layer.name == "Trees_top":
+                    for obj in layer:
+                        if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
+                            print ("Træ top")
+                            break
+
+                if layer.name == "Trees_right":
+                    for obj in layer:
+                        if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
+                            print ("Træ Højre")
+                            break
+
+                if layer.name == "Trees_bottom":
+                    for obj in layer:
+                        if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
+                            print ("Træ Nede")
                             break
 
         for event in pygame.event.get():
