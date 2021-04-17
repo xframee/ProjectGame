@@ -49,47 +49,51 @@ class Game:
         pygame.display.flip() # Flip til sidst for optimering
      
 
-    def events(self):
-           
+    def hitDetectionLeftTrees(self):
         for layer in self.pytmx_map.visible_layers:
             if isinstance(layer, pytmx.TiledObjectGroup):
                 if layer.name == "Trees_left":
                     for obj in layer:
-                        if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
-                            print ("Træ venstre")
-                            break
-
+                        return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect)
+                
+    def hitDetectionTopTrees(self):
+        for layer in self.pytmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledObjectGroup):
                 if layer.name == "Trees_top":
                     for obj in layer:
-                        if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
-                            print ("Træ top")
-                            break
+                        return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect)
 
+
+    def hitDetectionRightTrees(self):
+        for layer in self.pytmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledObjectGroup):
                 if layer.name == "Trees_right":
                     for obj in layer:
-                        if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
-                            print ("Træ Højre")
-                            break
+                        return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect)
+                            
 
+    def hitDetectionBottomTrees(self):
+        for layer in self.pytmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledObjectGroup):
                 if layer.name == "Trees_bottom":
                     for obj in layer:
-                        if pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect) == True:
-                            print ("Træ Nede")
-                            break
+                        return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect)
 
+    def events(self):
+           
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit()
             if event.type == pygame.KEYDOWN: 
                 if event.key == pygame.K_ESCAPE: 
                     self.quit()
-                if event.key == pygame.K_a:
+                if event.key == pygame.K_a and not self.hitDetectionLeftTrees():
                     self.player.move(dx=-10)
-                if event.key == pygame.K_d:
+                if event.key == pygame.K_d and not self.hitDetectionRightTrees():
                     self.player.move(dx=+10)
-                if event.key == pygame.K_w:
+                if event.key == pygame.K_w and not self.hitDetectionTopTrees():
                     self.player.move(dy=-10)
-                if event.key == pygame.K_s:
+                if event.key == pygame.K_s and not self.hitDetectionBottomTrees():
                     self.player.move(dy=+10)
     
     def startScreen(self):
