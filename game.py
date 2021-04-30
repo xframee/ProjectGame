@@ -23,8 +23,10 @@ class Game:
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
+        self.mobs = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
+        self.Enemy = Enemy(self, 500, 80)
 
     def running (self):
         self.running = True
@@ -40,6 +42,7 @@ class Game:
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
+        
     
 
     def drawToScreen(self):
