@@ -20,3 +20,6 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 
 # player settings
 PLAYER_SPEED = 200
+
+# Enemy settings
+MOB_SPEED = 150

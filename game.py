@@ -9,7 +9,7 @@ from camera import *
 class Game:
     def __init__ (self):
         pygame.init()
-        os.chdir("PATH-TO-WORKING-DIRECTORY")
+        os.chdir("PATH-TO-DIRECTORY-HERE")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         self.clock = pygame.time.Clock()
@@ -27,7 +27,7 @@ class Game:
         self.mobs = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
-        self.Enemy = Enemy(self, 500, 80)
+        self.enemy = Enemy(self, 500, 80)
 
     def running (self):
         self.running = True
