@@ -9,7 +9,7 @@ from camera import *
 class Game:
     def __init__ (self):
         pygame.init()
-        os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame")
+        os.chdir("PATH-TO-WORKING-DIRECTORY")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         self.clock = pygame.time.Clock()
@@ -94,6 +94,7 @@ class Game:
     
     def startScreen(self):
         pass
+        #Create greeting screen
     
     
 g = Game()

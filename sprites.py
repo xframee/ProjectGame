@@ -19,11 +19,11 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] and not self.game.hitDetectionLeftTrees():
             self.vx = -PLAYER_SPEED 
-        elif keys[pygame.K_d] and not self.game.hitDetectionRightTrees():
+        if keys[pygame.K_d] and not self.game.hitDetectionRightTrees():
             self.vx = PLAYER_SPEED
-        elif keys[pygame.K_w] and not self.game.hitDetectionTopTrees():
+        if keys[pygame.K_w] and not self.game.hitDetectionTopTrees():
             self.vy = -PLAYER_SPEED
-        elif keys[pygame.K_s] and not self.game.hitDetectionBottomTrees():
+        if keys[pygame.K_s] and not self.game.hitDetectionBottomTrees():
             self.vy = PLAYER_SPEED
 
     def move(self, dx=0, dy=0):
