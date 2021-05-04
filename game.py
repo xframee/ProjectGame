@@ -12,6 +12,7 @@ class Game:
         os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
+        self.clock = pygame.time.Clock()
         pygame.key.set_repeat(10, 100)
         self.setup()
 
@@ -30,7 +31,8 @@ class Game:
 
     def running (self):
         self.running = True
-        while self.running: 
+        while self.running:
+            self.dt = self.clock.tick(FPS) / 1000 
             self.events()
             self.update()
             self.drawToScreen()
@@ -43,7 +45,6 @@ class Game:
         self.all_sprites.update()
         self.camera.update(self.player)
         
-    
 
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -90,14 +91,6 @@ class Game:
             if event.type == pygame.KEYDOWN: 
                 if event.key == pygame.K_ESCAPE: 
                     self.quit()
-                if event.key == pygame.K_a and not self.hitDetectionLeftTrees():
-                    self.player.move(dx=-10)
-                if event.key == pygame.K_d and not self.hitDetectionRightTrees():
-                    self.player.move(dx=+10)
-                if event.key == pygame.K_w and not self.hitDetectionTopTrees():
-                    self.player.move(dy=-10)
-                if event.key == pygame.K_s and not self.hitDetectionBottomTrees():
-                    self.player.move(dy=+10)
     
     def startScreen(self):
         pass
