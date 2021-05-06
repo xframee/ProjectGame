@@ -27,4 +27,4 @@ PROJECTILE_LIFETIME = 5000
 FIRERATE = 250 #Tid i millisekunder mellem hvert skud
 
 # Enemy attributes
-MOB_SPEED = 375
+MOB_SPEED = 300
