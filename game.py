@@ -46,7 +46,6 @@ class Game:
         self.all_sprites.update()
         self.camera.update(self.player)
         
-
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         for sprite in self.all_sprites:
