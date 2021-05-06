@@ -18,8 +18,11 @@ TILESIZE = 64
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
-# player settings
+# player attributes
 PLAYER_SPEED = 200
 
-# Enemy settings
+# Weapon attributes
+
+
+# Enemy attributes
 MOB_SPEED = 150
