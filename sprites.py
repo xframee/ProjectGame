@@ -27,6 +27,10 @@ class Player(pygame.sprite.Sprite):
             self.vel.y = -PLAYER_SPEED
         if keys[pygame.K_s] and not self.game.hitDetectionBottomTrees():
             self.vel.y = PLAYER_SPEED
+
+        #Fikser bevægelsehastigheds inkonsistens
+        if self.vel.x != 0 and self.vel.y != 0: # Tjekker om playeren bevæger sig i to retninger på samme tid, altså diagonalt
+            self.vel *= 0.7071
             
         if keys[pygame.K_SPACE] and self.vel != (0,0):
             now = pygame.time.get_ticks()
@@ -35,10 +39,6 @@ class Player(pygame.sprite.Sprite):
                 dir = self.vel * 0.002
                 Projectile(self.game, self.pos, dir)
                 print (self.vel)
-
-        #Fikser bevægelsehastigheds inkonsistens
-        if self.vel.x != 0 and self.vel.y != 0: # Tjekker om playeren bevæger sig i to retninger på samme tid, altså diagonalt
-            self.vel *= 0.7071
 
     def update(self):
         self.get_keys()
@@ -92,3 +92,4 @@ class Projectile (pygame.sprite.Sprite):
         if pygame.time.get_ticks() - self.spawnTime > PROJECTILE_LIFETIME: #Tjekker om spillerens projektil har været i live længere tid end vi ønsker
             self.kill() #Hvis sandt dræber vi projectile
 
+    
