@@ -27,7 +27,7 @@ class Game:
         self.mobs = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
-        self.enemy = Enemy(self, 500, 80)
+        self.enemy = Enemy(self, 500, 200)
 
     def running (self):
         self.running = True
@@ -52,7 +52,7 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         pygame.display.flip() # Flip til sidst for optimering
      
-
+#Hit detection for the player model
     def hitDetectionLeftTrees(self):
         for layer in self.pytmx_map.visible_layers:
             if isinstance(layer, pytmx.TiledObjectGroup):
@@ -74,7 +74,6 @@ class Game:
                 if layer.name == "Trees_right":
                     for obj in layer:
                         return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect)
-                            
 
     def hitDetectionBottomTrees(self):
         for layer in self.pytmx_map.visible_layers:
@@ -82,6 +81,35 @@ class Game:
                 if layer.name == "Trees_bottom":
                     for obj in layer:
                         return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.player.rect)
+
+#Hit detection for the enemy sprites
+    def hitDetectionTopTreesEnemy(self):
+        for layer in self.pytmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledObjectGroup):
+                if layer.name == "Trees_top":
+                    for obj in layer:
+                        return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.enemy.rect)
+    
+    def hitDetectionLeftTreesEnemy(self):
+        for layer in self.pytmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledObjectGroup):
+                if layer.name == "Trees_left":
+                    for obj in layer:
+                        return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.enemy.rect)
+    
+    def hitDetectionRightTreesEnemy(self):
+        for layer in self.pytmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledObjectGroup):
+                if layer.name == "Trees_right":
+                    for obj in layer:
+                        return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.enemy.rect)
+
+    def hitDetectionBottomTreesEnemy(self):
+        for layer in self.pytmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledObjectGroup):
+                if layer.name == "Trees_bottom":
+                    for obj in layer:
+                        return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(self.enemy.rect)
 
     def events(self):
            
