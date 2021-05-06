@@ -13,7 +13,9 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('player1.png')
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
+        self.last_shot = 0
 
+    #Tjekker om brugeren vil bevæge sig med bevægelsestasterne, og om man kolliderer med træerne
     def get_keys(self):
         self.vel = vec (0,0)
         keys = pygame.key.get_pressed()
@@ -25,7 +27,17 @@ class Player(pygame.sprite.Sprite):
             self.vel.y = -PLAYER_SPEED
         if keys[pygame.K_s] and not self.game.hitDetectionBottomTrees():
             self.vel.y = PLAYER_SPEED
-        if self.vel.x != 0 and self.vel.y != 0:
+            
+        if keys[pygame.K_SPACE] and self.vel != (0,0):
+            now = pygame.time.get_ticks()
+            if now - self.last_shot > FIRERATE:
+                self.last_shot = now
+                dir = self.vel * 0.002
+                Projectile(self.game, self.pos, dir)
+                print (self.vel)
+
+        #Fikser bevægelsehastigheds inkonsistens
+        if self.vel.x != 0 and self.vel.y != 0: # Tjekker om playeren bevæger sig i to retninger på samme tid, altså diagonalt
             self.vel *= 0.7071
 
     def update(self):
@@ -66,9 +78,10 @@ class Projectile (pygame.sprite.Sprite):
     def __init__ (self, game, pos, dir):
         self.groups = game.all_sprites, game.projectiles
         pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
         self.image = pygame.image.load('PlayerProjectile.png')
         self.rect = self.image.get_rect()
-        self.pos = pos
+        self.pos = vec(pos) #Laver en ny vector for vores projektil, ellers ville vi også update player pos
         self.rect.center = pos
         self.vel = dir * PROJECTILE_SPEED #Projektilet bruger en retningsvektor for at finde retningen den skal skydes i og ganger denne med farten
         self.spawnTime = pygame.time.get_ticks() # tjekker hvor længe projektilet har været "i live", så det kan blive fjernet efter
@@ -76,6 +89,6 @@ class Projectile (pygame.sprite.Sprite):
     def update (self):
         self.pos += self.vel * self.game.dt
         self.rect.center = self.pos
-        if pg.time.get_ticks() - self.spawnTime > PROJECTILE_LIFETIME: #Tjekker om spillerens projektil har været i live længere tid end vi ønsker
-            self.kill() #Hvis sandt dræber vi vores projektil
+        if pygame.time.get_ticks() - self.spawnTime > PROJECTILE_LIFETIME: #Tjekker om spillerens projektil har været i live længere tid end vi ønsker
+            self.kill() #Hvis sandt dræber vi projectile
 
