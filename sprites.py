@@ -61,3 +61,21 @@ class Enemy(pygame.sprite.Sprite):
             
         self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2 #Equation of motion https://www.youtube.com/watch?v=SAbxZDBJX4E&list=PLsk-HSGFjnaGQq7ybM8Lgkh5EMxUWPm2i&index=8&ab_channel=KidsCanCode
         self.rect.center = self.pos
+
+class Projectile (pygame.sprite.Sprite):
+    def __init__ (self, game, pos, dir):
+        self.groups = game.all_sprites, game.projectiles
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.image = pygame.image.load('PlayerProjectile.png')
+        self.rect = self.image.get_rect()
+        self.pos = pos
+        self.rect.center = pos
+        self.vel = dir * PROJECTILE_SPEED #Projektilet bruger en retningsvektor for at finde retningen den skal skydes i og ganger denne med farten
+        self.spawnTime = pygame.time.get_ticks() # tjekker hvor længe projektilet har været "i live", så det kan blive fjernet efter
+
+    def update (self):
+        self.pos += self.vel * self.game.dt
+        self.rect.center = self.pos
+        if pg.time.get_ticks() - self.spawnTime > PROJECTILE_LIFETIME: #Tjekker om spillerens projektil har været i live længere tid end vi ønsker
+            self.kill() #Hvis sandt dræber vi vores projektil
+

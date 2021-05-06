@@ -25,6 +25,7 @@ class Game:
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
+        self.projectiles = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
         self.enemy = Enemy(self, 500, 200)
