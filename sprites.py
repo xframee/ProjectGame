@@ -78,6 +78,7 @@ class Player(pygame.sprite.Sprite):
                 self.last_shot = now
                 dir = vec(-PLAYER_SPEED,0)
                 Projectile(self.game, self.pos, dir, "left")
+            
 
     def update(self):
         self.get_keys()
@@ -107,7 +108,8 @@ class Enemy(pygame.sprite.Sprite):
         self.vel += self.acc * self.game.dt
 
         if (self.game.hitDetectionTopTrees(self.rect) or self.game.hitDetectionLeftTrees(self.rect) 
-        or self.game.hitDetectionRightTrees(self.rect) or self.game.hitDetectionBottomTrees(self.rect)):
+        or self.game.hitDetectionRightTrees(self.rect) 
+        or self.game.hitDetectionBottomTrees(self.rect)):
             self.vel = vec (0,0)
             
         self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2 #Equation of motion https://www.youtube.com/watch?v=SAbxZDBJX4E&list=PLsk-HSGFjnaGQq7ybM8Lgkh5EMxUWPm2i&index=8&ab_channel=KidsCanCode
@@ -138,9 +140,17 @@ class Projectile (pygame.sprite.Sprite):
             
         self.pos += self.vel * self.game.dt
         self.rect.center = self.pos
-        
+
         if pygame.time.get_ticks() - self.spawnTime > PROJECTILE_LIFETIME: #Tjekker om spillerens projektil har været i live længere tid end vi ønsker
             self.kill() #Hvis sandt dræber vi projectile
+
+        if (self.game.hitDetectionBottomTrees(self.rect) or self.game.hitDetectionLeftTrees(self.rect) 
+        or self.game.hitDetectionRightTrees(self.rect) 
+        or self.game.hitDetectionTopTrees(self.rect)):
+            self.kill()
+
+
+
 
     def rotateProjectilePointingUp (self):
         self.image = pygame.transform.rotate(self.image_not_rotated, 90)

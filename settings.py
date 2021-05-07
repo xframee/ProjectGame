@@ -1,3 +1,5 @@
+import pygame
+vec = pygame.math.Vector2
 # define some colors (R, G, B)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -20,6 +22,7 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 
 # player attributes
 PLAYER_SPEED = 300
+WAND_OFFSET = vec(20,5)
 
 # Weapon attributes
 PROJECTILE_SPEED = 1.5 #Hastigheden på vores projektil i forhold til hastigheden på vores player
