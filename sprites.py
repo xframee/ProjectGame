@@ -19,13 +19,13 @@ class Player(pygame.sprite.Sprite):
     def get_keys(self):
         self.vel = vec (0,0)
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_a] and not self.game.hitDetectionLeftTrees():
+        if keys[pygame.K_a] and not self.game.hitDetectionLeftTrees(self.rect):
             self.vel.x = -PLAYER_SPEED 
-        if keys[pygame.K_d] and not self.game.hitDetectionRightTrees():
+        if keys[pygame.K_d] and not self.game.hitDetectionRightTrees(self.rect):
             self.vel.x = PLAYER_SPEED
-        if keys[pygame.K_w] and not self.game.hitDetectionTopTrees():
+        if keys[pygame.K_w] and not self.game.hitDetectionTopTrees(self.rect):
             self.vel.y = -PLAYER_SPEED
-        if keys[pygame.K_s] and not self.game.hitDetectionBottomTrees():
+        if keys[pygame.K_s] and not self.game.hitDetectionBottomTrees(self.rect):
             self.vel.y = PLAYER_SPEED
 
         #Fikser bevægelsehastigheds inkonsistens
@@ -58,21 +58,21 @@ class Player(pygame.sprite.Sprite):
                 dir = vec(0,-PLAYER_SPEED)
                 Projectile(self.game, self.pos, dir, "up")
         
-        if keys[pygame.K_DOWN]:
+        elif keys[pygame.K_DOWN]:
             now = pygame.time.get_ticks()
             if now - self.last_shot > FIRERATE:
                 self.last_shot = now
                 dir = vec(0,PLAYER_SPEED)
                 Projectile(self.game, self.pos, dir, "down")
 
-        if keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_RIGHT]:
             now = pygame.time.get_ticks()
             if now - self.last_shot > FIRERATE:
                 self.last_shot = now
                 dir = vec(PLAYER_SPEED, 0)
                 Projectile(self.game, self.pos, dir, "right")
 
-        if keys[pygame.K_LEFT]:
+        elif keys[pygame.K_LEFT]:
             now = pygame.time.get_ticks()
             if now - self.last_shot > FIRERATE:
                 self.last_shot = now
@@ -106,8 +106,8 @@ class Enemy(pygame.sprite.Sprite):
         self.acc += self.vel * -1
         self.vel += self.acc * self.game.dt
 
-        if (self.game.hitDetectionTopTreesEnemy() or self.game.hitDetectionLeftTreesEnemy() 
-        or self.game.hitDetectionRightTreesEnemy() or self.game.hitDetectionBottomTreesEnemy()):
+        if (self.game.hitDetectionTopTrees(self.rect) or self.game.hitDetectionLeftTrees(self.rect) 
+        or self.game.hitDetectionRightTrees(self.rect) or self.game.hitDetectionBottomTrees(self.rect)):
             self.vel = vec (0,0)
             
         self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2 #Equation of motion https://www.youtube.com/watch?v=SAbxZDBJX4E&list=PLsk-HSGFjnaGQq7ybM8Lgkh5EMxUWPm2i&index=8&ab_channel=KidsCanCode
@@ -138,6 +138,7 @@ class Projectile (pygame.sprite.Sprite):
             
         self.pos += self.vel * self.game.dt
         self.rect.center = self.pos
+        
         if pygame.time.get_ticks() - self.spawnTime > PROJECTILE_LIFETIME: #Tjekker om spillerens projektil har været i live længere tid end vi ønsker
             self.kill() #Hvis sandt dræber vi projectile
 
