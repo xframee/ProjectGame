@@ -39,16 +39,16 @@ class Player(pygame.sprite.Sprite):
                 self.last_shot = now
                 dir = self.vel
                 if self.vel.x < 0:
-                    Projectile(self.game, self.pos, dir, "left")
+                    Projectile(self.game, self.pos + WAND_OFFSET, dir, "left")
 
                 elif self.vel.x > 0:
-                    Projectile(self.game, self.pos, dir, "right")
+                    Projectile(self.game, self.pos + WAND_OFFSET, dir, "right")
 
                 elif self.vel.x == 0 and self.vel.y < 0:
-                    Projectile(self.game, self.pos, dir, "up")
+                    Projectile(self.game, self.pos + WAND_OFFSET, dir, "up")
 
                 elif self.vel.x == 0 and self.vel.y > 0:
-                    Projectile(self.game, self.pos, dir, "down")
+                    Projectile(self.game, self.pos + WAND_OFFSET, dir, "down")
         
         #Skudfunktion hvor man bruger piltasterne for retning, giver mere brugervenlighed
         if keys[pygame.K_UP]:
@@ -56,28 +56,28 @@ class Player(pygame.sprite.Sprite):
             if now - self.last_shot > FIRERATE:
                 self.last_shot = now
                 dir = vec(0,-PLAYER_SPEED)
-                Projectile(self.game, self.pos, dir, "up")
+                Projectile(self.game, self.pos + WAND_OFFSET, dir, "up")
         
         elif keys[pygame.K_DOWN]:
             now = pygame.time.get_ticks()
             if now - self.last_shot > FIRERATE:
                 self.last_shot = now
                 dir = vec(0,PLAYER_SPEED)
-                Projectile(self.game, self.pos, dir, "down")
+                Projectile(self.game, self.pos + WAND_OFFSET, dir, "down")
 
         elif keys[pygame.K_RIGHT]:
             now = pygame.time.get_ticks()
             if now - self.last_shot > FIRERATE:
                 self.last_shot = now
                 dir = vec(PLAYER_SPEED, 0)
-                Projectile(self.game, self.pos, dir, "right")
+                Projectile(self.game, self.pos + WAND_OFFSET, dir, "right")
 
         elif keys[pygame.K_LEFT]:
             now = pygame.time.get_ticks()
             if now - self.last_shot > FIRERATE:
                 self.last_shot = now
                 dir = vec(-PLAYER_SPEED,0)
-                Projectile(self.game, self.pos, dir, "left")
+                Projectile(self.game, self.pos + WAND_OFFSET, dir, "left")
             
 
     def update(self):
@@ -148,8 +148,6 @@ class Projectile (pygame.sprite.Sprite):
         or self.game.hitDetectionRightTrees(self.rect) 
         or self.game.hitDetectionTopTrees(self.rect)):
             self.kill()
-
-
 
 
     def rotateProjectilePointingUp (self):
