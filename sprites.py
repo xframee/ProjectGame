@@ -31,7 +31,8 @@ class Player(pygame.sprite.Sprite):
         #Fikser bevægelsehastigheds inkonsistens
         if self.vel.x != 0 and self.vel.y != 0: # Tjekker om playeren bevæger sig i to retninger på samme tid, altså diagonalt
             self.vel *= 0.7071
-            
+
+         #Skudfunktion hvor man skyder ved kun at trykke på SPACE, protektilerne flyver i playerens retning   
         if keys[pygame.K_SPACE] and self.vel != (0,0):
             now = pygame.time.get_ticks()
             if now - self.last_shot > FIRERATE:
@@ -48,6 +49,35 @@ class Player(pygame.sprite.Sprite):
 
                 elif self.vel.x == 0 and self.vel.y > 0:
                     Projectile(self.game, self.pos, dir, "down")
+        
+        #Skudfunktion hvor man bruger piltasterne for retning, giver mere brugervenlighed
+        if keys[pygame.K_UP]:
+            now = pygame.time.get_ticks()
+            if now - self.last_shot > FIRERATE:
+                self.last_shot = now
+                dir = vec(0,-PLAYER_SPEED)
+                Projectile(self.game, self.pos, dir, "up")
+        
+        if keys[pygame.K_DOWN]:
+            now = pygame.time.get_ticks()
+            if now - self.last_shot > FIRERATE:
+                self.last_shot = now
+                dir = vec(0,PLAYER_SPEED)
+                Projectile(self.game, self.pos, dir, "down")
+
+        if keys[pygame.K_RIGHT]:
+            now = pygame.time.get_ticks()
+            if now - self.last_shot > FIRERATE:
+                self.last_shot = now
+                dir = vec(PLAYER_SPEED, 0)
+                Projectile(self.game, self.pos, dir, "right")
+
+        if keys[pygame.K_LEFT]:
+            now = pygame.time.get_ticks()
+            if now - self.last_shot > FIRERATE:
+                self.last_shot = now
+                dir = vec(-PLAYER_SPEED,0)
+                Projectile(self.game, self.pos, dir, "left")
 
     def update(self):
         self.get_keys()
@@ -90,6 +120,7 @@ class Projectile (pygame.sprite.Sprite):
         self.game = game
         self.image_not_rotated = pygame.image.load('PlayerProjectile.png')
         self.image = self.image_not_rotated
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.pos = vec(pos) #Laver en ny vector for vores projektil, ellers ville vi også update player pos
         self.rect.center = pos

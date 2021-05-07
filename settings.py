@@ -19,12 +19,12 @@ GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
 # player attributes
-PLAYER_SPEED = 400
+PLAYER_SPEED = 300
 
 # Weapon attributes
-PROJECTILE_SPEED = 1.5 #HAstigheden på vores projektil i forhold til hastigheden på vores player
+PROJECTILE_SPEED = 1.5 #Hastigheden på vores projektil i forhold til hastigheden på vores player
 PROJECTILE_LIFETIME = 5000
 FIRERATE = 250 #Tid i millisekunder mellem hvert skud
 
 # Enemy attributes
-MOB_SPEED = 300
+MOB_SPEED = 200
