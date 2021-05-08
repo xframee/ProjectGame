@@ -7,15 +7,17 @@ from settings import *
 from camera import *
 
 class Game:
+
     def __init__ (self):
         pygame.init()
-        #os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame") 
-        os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
+        os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame") 
+        #os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         self.clock = pygame.time.Clock()
         pygame.key.set_repeat(10, 100)
         self.setup()
+        self.POINTS = 0
 
     def setup(self):
         self.map = TiledMap('map2.tmx')
@@ -30,6 +32,8 @@ class Game:
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
         self.enemy = Enemy(self, 500, 200)
+        self.enemy = Enemy(self, 700, 200)
+        
 
     def running (self):
         self.running = True
@@ -46,6 +50,13 @@ class Game:
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
+        isEnemyHit = pygame.sprite.groupcollide(self.mobs, self.projectiles, False, True) 
+        #false for mobs, da et mob ikke skal forsvinde, når de bliver ramt af et skud, 
+        # men et skud skal forsvinde, når det rammer et mob, derfor true. 
+        for hit in isEnemyHit:
+            hit.kill()
+            self.points += PLAYER_POINTS
+            print (self.points)
         
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -95,6 +106,10 @@ class Game:
     def startScreen(self):
         pass
         #Create greeting screen
+    
+    def gameOver(self):
+        pass
+        #Create gameover screen
     
     
 g = Game()
