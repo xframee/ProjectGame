@@ -58,8 +58,6 @@ class Game:
             hit.health -= PROJECTILE_DAMAGE
             hit.vel = vec(0, 0)
             self.points += PLAYER_POINTS
-            
-
         
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))

@@ -98,7 +98,7 @@ class Enemy(pygame.sprite.Sprite):
         self.acc = vec (0, 0) #Acceleration
         self.image.set_colorkey(BLACK)
         self.rot = 0
-        self.health = 100
+        self.health = ENEMY_HEALTH
         
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1,0))
@@ -120,10 +120,14 @@ class Enemy(pygame.sprite.Sprite):
             self.kill()
 
     def drawHealth(self):
-        col = RED
-        self.width = int(self.rect.width * self.health / 100)
-        self.health_bar = pygame.Rect(0, 0, self.width, 7)
-        pygame.draw.rect(self.image, col, self.health_bar)
+        if self.health > 50:
+            col = GREEN
+        else:
+            col = RED
+        width = int(self.rect.width * self.health / ENEMY_HEALTH)
+        self.health_bar = pygame.Rect(0, 0, width, 7)
+        if self.health < 100:
+            pygame.draw.rect(self.image, col, self.health_bar)
 
 class Projectile (pygame.sprite.Sprite):
     def __init__ (self, game, pos, dir, facing):
