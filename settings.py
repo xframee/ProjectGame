@@ -29,6 +29,7 @@ PLAYER_POINTS = 10
 PROJECTILE_SPEED = 1.5 #Hastigheden på vores projektil i forhold til hastigheden på vores player
 PROJECTILE_LIFETIME = 5000
 FIRERATE = 500 #Tid i millisekunder mellem hvert skud
+PROJECTILE_DAMAGE = 25
 
 # Enemy attributes
 MOB_SPEED = 200

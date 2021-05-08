@@ -98,6 +98,7 @@ class Enemy(pygame.sprite.Sprite):
         self.acc = vec (0, 0) #Acceleration
         self.image.set_colorkey(BLACK)
         self.rot = 0
+        self.health = 100
         
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1,0))
@@ -114,6 +115,15 @@ class Enemy(pygame.sprite.Sprite):
             
         self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2 #Equation of motion https://www.youtube.com/watch?v=SAbxZDBJX4E&list=PLsk-HSGFjnaGQq7ybM8Lgkh5EMxUWPm2i&index=8&ab_channel=KidsCanCode
         self.rect.center = self.pos
+        
+        if self.health <= 0:
+            self.kill()
+
+    def drawHealth(self):
+        col = RED
+        self.width = int(self.rect.width * self.health / 100)
+        self.health_bar = pygame.Rect(0, 0, self.width, 7)
+        pygame.draw.rect(self.image, col, self.health_bar)
 
 class Projectile (pygame.sprite.Sprite):
     def __init__ (self, game, pos, dir, facing):

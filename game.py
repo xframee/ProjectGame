@@ -2,6 +2,7 @@ import pygame
 import sys
 import os
 import pytmx
+import random
 from sprites import *
 from settings import *
 from camera import *
@@ -31,9 +32,9 @@ class Game:
         self.projectiles = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
-        self.enemy = Enemy(self, 500, 200)
-        self.enemy = Enemy(self, 700, 200)
-        
+        for x in range(1):
+            self.enemy = Enemy(self, random.randint(TILESIZE, (3200-TILESIZE)), 
+            random.randint(TILESIZE, (1920-TILESIZE)))
 
     def running (self):
         self.running = True
@@ -54,12 +55,17 @@ class Game:
         #false for mobs, da et mob ikke skal forsvinde, når de bliver ramt af et skud, 
         # men et skud skal forsvinde, når det rammer et mob, derfor true. 
         for hit in isEnemyHit:
-            hit.kill()
+            hit.health -= PROJECTILE_DAMAGE
+            hit.vel = vec(0, 0)
             self.points += PLAYER_POINTS
+            
+
         
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         for sprite in self.all_sprites:
+            if isinstance(sprite, Enemy):
+                sprite.drawHealth()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         pygame.display.flip() # Flip til sidst for optimering
      
