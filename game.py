@@ -17,13 +17,13 @@ class Game:
         self.clock = pygame.time.Clock()
         pygame.key.set_repeat(10, 100)
         self.setup()
-        self.POINTS = 0
 
     def setup(self):
         self.map = TiledMap('map2.tmx')
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
         self.pytmx_map = pytmx.load_pygame('map2.tmx')
+        self.points = 0
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
@@ -56,7 +56,6 @@ class Game:
         for hit in isEnemyHit:
             hit.kill()
             self.points += PLAYER_POINTS
-            print (self.points)
         
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -95,7 +94,6 @@ class Game:
                         return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(SpriteToCheck)
 
     def events(self):
-           
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit()
@@ -111,8 +109,7 @@ class Game:
         pass
         #Create gameover screen
     
-    
 g = Game()
 while True:
     g.newSprite()
-    g.running()     
+    g.running()
