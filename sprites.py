@@ -102,6 +102,7 @@ class Enemy(pygame.sprite.Sprite):
         
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1,0))
+        self.image = pygame.image.load('enemy1.png') #Loader billedet hver frame, for at få HP-bar til at virke - skidt optimering
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
         self.acc = vec (MOB_SPEED, 0).rotate(-self.rot)
