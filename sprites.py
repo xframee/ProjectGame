@@ -5,7 +5,7 @@ vec = pygame.math.Vector2
 class Player(pygame.sprite.Sprite):
 
     def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.playerGroup
+        self.groups = game.all_sprites, game.player_group
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.vel = vec (0,0) #Velocity
         self.pos = vec (x,y) #Position

@@ -28,7 +28,7 @@ class Game:
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
-        self.playerGroup = pygame.sprite.Group()
+        self.player_group = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
@@ -38,8 +38,8 @@ class Game:
             random.randint(TILESIZE, (1920-TILESIZE)))
 
     def running (self):
-        self.running = True
-        while self.running:
+        self.playing = True
+        while self.playing:
             self.dt = self.clock.tick(FPS) / 1000 
             self.events()
             self.update()
@@ -54,9 +54,13 @@ class Game:
         self.camera.update(self.player)
 
         #Nedenfor tjekker om enemy rammer player
-        isPlayerHit = pygame.sprite.groupcollide(self.playerGroup, self.mobs, False, False) 
+        isPlayerHit = pygame.sprite.groupcollide(self.mobs, self.player_group, False, False) 
         for hit in isPlayerHit:
-            self.player.health -= PROJECTILE_DAMAGE
+            hit.vel = vec(0, 0)
+            self.player.health -= ENEMY_DAMAGE
+             #Gør så den enemy der skader playeren ikke bevæger sig lige efter
+            if self.player.health <= 0:
+                self.playing = False
             print(self.player.health)
 
         #Nedenfor tjekker for kollision mellem skud og enemies
@@ -123,6 +127,8 @@ class Game:
         #Create gameover screen
     
 g = Game()
+g.startScreen()
 while True:
     g.newSprite()
     g.running()
+    g.gameOver()
