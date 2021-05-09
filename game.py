@@ -28,11 +28,12 @@ class Game:
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
+        self.playerGroup = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
-        for x in range(1):
+        for x in range(3):
             self.enemy = Enemy(self, random.randint(TILESIZE, (3200-TILESIZE)), 
             random.randint(TILESIZE, (1920-TILESIZE)))
 
@@ -51,6 +52,14 @@ class Game:
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
+
+        #Nedenfor tjekker om enemy rammer player
+        isPlayerHit = pygame.sprite.groupcollide(self.playerGroup, self.mobs, False, False) 
+        for hit in isPlayerHit:
+            self.player.health -= PROJECTILE_DAMAGE
+            print(self.player.health)
+
+        #Nedenfor tjekker for kollision mellem skud og enemies
         isEnemyHit = pygame.sprite.groupcollide(self.mobs, self.projectiles, False, True) 
         #false for mobs, da et mob ikke skal forsvinde, når de bliver ramt af et skud, 
         # men et skud skal forsvinde, når det rammer et mob, derfor true. 

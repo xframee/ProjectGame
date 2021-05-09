@@ -5,7 +5,7 @@ vec = pygame.math.Vector2
 class Player(pygame.sprite.Sprite):
 
     def __init__(self, game, x, y):
-        self.groups = game.all_sprites
+        self.groups = game.all_sprites, game.playerGroup
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.vel = vec (0,0) #Velocity
         self.pos = vec (x,y) #Position
@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.last_shot = 0
+        self.health = PLAYER_HEALH
 
     #Tjekker om brugeren vil bevæge sig med bevægelsestasterne, og om man kolliderer med træerne
     def get_keys(self):
