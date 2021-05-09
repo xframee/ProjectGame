@@ -107,7 +107,6 @@ class Enemy(pygame.sprite.Sprite):
         self.acc = vec (MOB_SPEED, 0).rotate(-self.rot)
         self.acc += self.vel * -1
         self.vel += self.acc * self.game.dt
-
         if (self.game.hitDetectionTopTrees(self.rect) or self.game.hitDetectionLeftTrees(self.rect) 
         or self.game.hitDetectionRightTrees(self.rect) 
         or self.game.hitDetectionBottomTrees(self.rect)):
@@ -122,9 +121,7 @@ class Enemy(pygame.sprite.Sprite):
     def drawHealth(self):
         col = RED
         width = int(self.rect.width * self.health / ENEMY_HEALTH)
-        print (width)
         self.health_bar = pygame.Rect(0, 0, width, 7)
-        print(width)
         pygame.draw.rect(self.image, col, self.health_bar)
 
 class Projectile (pygame.sprite.Sprite):

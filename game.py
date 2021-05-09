@@ -62,6 +62,8 @@ class Game:
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         for sprite in self.all_sprites:
+            if isinstance(sprite, Enemy):
+                sprite.drawHealth()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         pygame.display.flip() # Flip til sidst for optimering
      
