@@ -120,14 +120,12 @@ class Enemy(pygame.sprite.Sprite):
             self.kill()
 
     def drawHealth(self):
-        if self.health > 50:
-            col = GREEN
-        else:
-            col = RED
+        col = RED
         width = int(self.rect.width * self.health / ENEMY_HEALTH)
+        print (width)
         self.health_bar = pygame.Rect(0, 0, width, 7)
-        if self.health < 100:
-            pygame.draw.rect(self.image, col, self.health_bar)
+        print(width)
+        pygame.draw.rect(self.image, col, self.health_bar)
 
 class Projectile (pygame.sprite.Sprite):
     def __init__ (self, game, pos, dir, facing):

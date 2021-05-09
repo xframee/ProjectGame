@@ -11,8 +11,8 @@ class Game:
 
     def __init__ (self):
         pygame.init()
-        os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame") 
-        #os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
+        #os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame") 
+        os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         self.clock = pygame.time.Clock()
@@ -62,8 +62,6 @@ class Game:
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         for sprite in self.all_sprites:
-            if isinstance(sprite, Enemy):
-                sprite.drawHealth()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         pygame.display.flip() # Flip til sidst for optimering
      
