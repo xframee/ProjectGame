@@ -7,6 +7,24 @@ from sprites import *
 from settings import *
 from camera import *
 
+#HUD
+def drawPLayerHealh (surf, x, y, pct):
+    if pct < 0:
+        pct = 0
+    BAR_LENGTH = 100
+    BAR_HEIGHT = 20
+    fill = pct * BAR_LENGTH
+    outline_rect = pygame.Rect(x,y, BAR_LENGTH, BAR_HEIGHT)
+    fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
+    if pct > 0.6:
+        col = GREEN
+    elif pct > 0.3:
+        col = YELLOW
+    else:
+        col = RED
+    pygame.draw.rect(surf, col, fill_rect)
+    pygame.draw.rect(surf, WHITE, outline_rect, 2)
+
 class Game:
 
     def __init__ (self):
@@ -59,7 +77,6 @@ class Game:
             hit.vel = vec(0, 0) #Gør så den enemy der skader playeren ikke bevæger sig lige efterw
             if self.player.canTakeDamage(): #Tjekker om der er gået tid mellem sidste slag og nyt slag
                 self.player.health -= ENEMY_DAMAGE
-                print (self.player.health)
                 if self.player.health <= 0:
                     self.playing = False
 
@@ -78,6 +95,8 @@ class Game:
             if isinstance(sprite, Enemy):
                 sprite.drawHealth()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
+        #Draw HUD
+        drawPLayerHealh(self.screen, 10, 10, self.player.health / PLAYER_HEALH)
         pygame.display.flip() # Flip til sidst for optimering
      
 #Hit detection for the player model
