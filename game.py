@@ -56,12 +56,12 @@ class Game:
         #Nedenfor tjekker om enemy rammer player
         isPlayerHit = pygame.sprite.groupcollide(self.mobs, self.player_group, False, False) 
         for hit in isPlayerHit:
-            hit.vel = vec(0, 0)
-            self.player.health -= ENEMY_DAMAGE
-             #Gør så den enemy der skader playeren ikke bevæger sig lige efter
-            if self.player.health <= 0:
-                self.playing = False
-            print(self.player.health)
+            hit.vel = vec(0, 0) #Gør så den enemy der skader playeren ikke bevæger sig lige efterw
+            if self.player.canTakeDamage(): #Tjekker om der er gået tid mellem sidste slag og nyt slag
+                self.player.health -= ENEMY_DAMAGE
+                print (self.player.health)
+                if self.player.health <= 0:
+                    self.playing = False
 
         #Nedenfor tjekker for kollision mellem skud og enemies
         isEnemyHit = pygame.sprite.groupcollide(self.mobs, self.projectiles, False, True) 

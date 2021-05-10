@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.last_shot = 0
+        self.last_hit = 0
         self.health = PLAYER_HEALH
 
     #Tjekker om brugeren vil bevæge sig med bevægelsestasterne, og om man kolliderer med træerne
@@ -80,6 +81,12 @@ class Player(pygame.sprite.Sprite):
                 dir = vec(-PLAYER_SPEED,0)
                 Projectile(self.game, self.pos + WAND_OFFSET, dir, "left")
             
+    def canTakeDamage(self): #Søger for der er tid mellem hits for player, ellers ville man miste liv hver frame man var kollideret
+        now = pygame.time.get_ticks()
+        if now - self.last_hit > 500:
+            self.last_hit = now
+            return True
+        return False
 
     def update(self):
         self.get_keys()
