@@ -52,8 +52,8 @@ class Game:
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
         for x in range(3):
-            self.enemy = Enemy(self, random.randint(TILESIZE, (3200-TILESIZE)), 
-            random.randint(TILESIZE, (1920-TILESIZE)))
+            self.enemy = Enemy(self, random.randint(TILESIZE + 10, (3200-(TILESIZE + 10))), 
+            random.randint(TILESIZE + 10, (1920-(TILESIZE + 10))))
 
     def running (self):
         self.playing = True

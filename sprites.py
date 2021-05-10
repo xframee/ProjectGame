@@ -23,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] and not self.game.hitDetectionLeftTrees(self.rect):
             self.vel.x = -PLAYER_SPEED 
-        if keys[pygame.K_d] and not self.game.hitDetectionRightTrees(self.rect):
+        if keys[pygame.K_d] and not self.game.hitDetectionRightTrees(self.rect): 
             self.vel.x = PLAYER_SPEED
         if keys[pygame.K_w] and not self.game.hitDetectionTopTrees(self.rect):
             self.vel.y = -PLAYER_SPEED
