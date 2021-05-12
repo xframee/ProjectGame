@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.last_shot = 0
         self.last_hit = 0
-        self.health = PLAYER_HEALH
+        self.health = PLAYER_HEALTH
 
     #Tjekker om brugeren vil bevæge sig med bevægelsestasterne, og om man kolliderer med træerne
     def get_keys(self):

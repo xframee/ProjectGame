@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+from pygame import draw
 import pytmx
 import random
 from sprites import *
@@ -8,7 +9,7 @@ from settings import *
 from camera import *
 
 #HUD
-def drawPLayerHealh (surf, x, y, pct):
+def drawPLayerHealth (surf, x, y, pct):
     if pct < 0:
         pct = 0
     BAR_LENGTH = 100
@@ -24,6 +25,14 @@ def drawPLayerHealh (surf, x, y, pct):
         col = RED
     pygame.draw.rect(surf, col, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
+
+# Fuction til at lave tekst på skærmen
+def drawText (surf, text, size, x, y):
+    font = pygame.font.Font(FONT_NAME, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x,y)
+    surf.blit(text_surface, text_rect)
 
 class Game:
 
@@ -43,6 +52,7 @@ class Game:
         self.map_rect = self.map_img.get_rect()
         self.pytmx_map = pytmx.load_pygame('map2.tmx')
         self.points = 0
+        self.Score_String = f"Score: {self.points}"
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
@@ -88,6 +98,7 @@ class Game:
             hit.health -= PROJECTILE_DAMAGE
             hit.vel = vec(0, 0)
             self.points += PLAYER_POINTS
+            self.Score_String = f"Score: {self.points}"
         
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -96,7 +107,8 @@ class Game:
                 sprite.drawHealth()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         #Draw HUD
-        drawPLayerHealh(self.screen, 10, 10, self.player.health / PLAYER_HEALH)
+        drawPLayerHealth(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
+        drawText(self.screen, self.Score_String ,14, 100, 65)
         pygame.display.flip() # Flip til sidst for optimering
      
 #Hit detection for the player model
