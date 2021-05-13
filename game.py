@@ -38,8 +38,8 @@ class Game:
 
     def __init__ (self):
         pygame.init()
-        os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame") 
-        #os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
+        #os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame") 
+        os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         self.clock = pygame.time.Clock()
@@ -52,7 +52,7 @@ class Game:
         self.map_rect = self.map_img.get_rect()
         self.pytmx_map = pytmx.load_pygame('map2.tmx')
         self.points = 0
-        self.Score_String = f"Score: {self.points}"
+        self.score_string = f"Score: {self.points}"
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
@@ -98,7 +98,7 @@ class Game:
             hit.health -= PROJECTILE_DAMAGE
             hit.vel = vec(0, 0)
             self.points += PLAYER_POINTS
-            self.Score_String = f"Score: {self.points}"
+            self.score_string = f"Score: {self.points}"
         
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -108,7 +108,7 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         #Draw HUD
         drawPLayerHealth(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
-        drawText(self.screen, self.Score_String ,14, 100, 65)
+        drawText(self.screen, self.score_string, 24 , 100, 65)
         pygame.display.flip() # Flip til sidst for optimering
      
 #Hit detection for the player model
