@@ -26,14 +26,6 @@ def drawPLayerHealth (surf, x, y, pct):
     pygame.draw.rect(surf, col, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 2)
 
-# Fuction til at lave tekst på skærmen
-def drawText (surf, text, size, x, y):
-    font = pygame.font.Font(FONT_NAME, size)
-    text_surface = font.render(text, True, WHITE)
-    text_rect = text_surface.get_rect()
-    text_rect.midtop = (x,y)
-    surf.blit(text_surface, text_rect)
-
 class Game:
 
     def __init__ (self):
@@ -108,7 +100,7 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         #Draw HUD
         drawPLayerHealth(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
-        drawText(self.screen, self.score_string, 24 , 100, 65)
+        self.drawText(self.screen, self.score_string, 18 , 1300, 65)
         pygame.display.flip() # Flip til sidst for optimering
      
 #Hit detection for the player model
@@ -141,6 +133,14 @@ class Game:
                     for obj in layer:
                         return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(SpriteToCheck)
 
+    # Fuction til at lave tekst på skærmen
+    def drawText (self, surf, text, size, x, y):
+        font = pygame.font.Font(FONT_NAME, size)
+        text_surface = font.render(text, True, WHITE)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x,y)
+        surf.blit(text_surface, text_rect)
+
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -154,7 +154,8 @@ class Game:
         #Create greeting screen
     
     def gameOver(self):
-        pass
+        self.points = 0
+        self.score_string = f"Score: {self.points}"
         #Create gameover screen
     
 g = Game()
