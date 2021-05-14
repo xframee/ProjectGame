@@ -116,6 +116,7 @@ class Enemy(pygame.sprite.Sprite):
         self.acc = vec (MOB_SPEED, 0).rotate(-self.rot)
         self.acc += self.vel * -1
         self.vel += self.acc * self.game.dt
+
         if (self.game.hitDetectionTopTrees(self.rect) or self.game.hitDetectionLeftTrees(self.rect) 
         or self.game.hitDetectionRightTrees(self.rect) 
         or self.game.hitDetectionBottomTrees(self.rect)):
@@ -166,7 +167,6 @@ class Projectile (pygame.sprite.Sprite):
         or self.game.hitDetectionRightTrees(self.rect) 
         or self.game.hitDetectionTopTrees(self.rect)):
             self.kill()
-
 
     def rotateProjectilePointingUp (self):
         self.image = pygame.transform.rotate(self.image_not_rotated, 90)

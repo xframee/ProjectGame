@@ -4,7 +4,7 @@ import os
 from pygame import draw
 import pytmx
 import random
-from sprites import *
+from sprites import * 
 from settings import *
 from camera import *
 
@@ -51,6 +51,7 @@ class Game:
         self.player_group = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
+        
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
         for x in range(3):
