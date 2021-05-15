@@ -10,21 +10,26 @@ class Player(pygame.sprite.Sprite):
         self.vel = vec (0,0) #Velocity
         self.pos = vec (x,y) #Position
         self.game = game
-        self.image = pygame.image.load('player1.png')
+        self.image_not_flipped = pygame.image.load('player1.png')
+        self.image = self.image_not_flipped
+        self.image_not_flipped.set_colorkey(BLACK)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.last_shot = 0
         self.last_hit = 0
         self.health = PLAYER_HEALTH
+        self.player_direction = "right"
 
     #Tjekker om brugeren vil bevæge sig med bevægelsestasterne, og om man kolliderer med træerne
     def get_keys(self):
         self.vel = vec (0,0)
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] and not self.game.hitDetectionLeftTrees(self.rect):
-            self.vel.x = -PLAYER_SPEED 
+            self.vel.x = -PLAYER_SPEED
+            self.player_direction = "left"
         if keys[pygame.K_d] and not self.game.hitDetectionRightTrees(self.rect): 
             self.vel.x = PLAYER_SPEED
+            self.player_direction = "right"
         if keys[pygame.K_w] and not self.game.hitDetectionTopTrees(self.rect):
             self.vel.y = -PLAYER_SPEED
         if keys[pygame.K_s] and not self.game.hitDetectionBottomTrees(self.rect):
@@ -88,8 +93,16 @@ class Player(pygame.sprite.Sprite):
             return True
         return False
 
+    def rotatePLayerSpriteLeft (self):
+        self.image = pygame.transform.flip(self.image_not_flipped, True, False) #boolean værdier er for horizontal eller vertical flip
+
     def update(self):
         self.get_keys()
+        if self.player_direction == "left":
+            self.rotatePLayerSpriteLeft()
+        else:
+            self.image = self.image_not_flipped
+
         self.pos += self.vel * self.game.dt
         self.rect.x = self.pos.x
         self.rect.y = self.pos.y

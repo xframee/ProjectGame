@@ -119,7 +119,6 @@ class Game:
                     for obj in layer:
                         return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(SpriteToCheck)
 
-
     def hitDetectionRightTrees(self, SpriteToCheck):
         for layer in self.pytmx_map.visible_layers:
             if isinstance(layer, pytmx.TiledObjectGroup):
