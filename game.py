@@ -147,7 +147,8 @@ class Game:
         surf.blit(text_surface, text_rect)
 
     def spawnEnemies(self):
-        number_of_enemies = (self.level - 1) **2
+        number_of_enemies = round( 1 * 1.6** (self.level - 1)) #Denne mangler finpudsning
+        print(number_of_enemies)
         for _ in range(number_of_enemies):
             self.enemy = Enemy(self, random.randint(TILESIZE + 10, (3200-(TILESIZE + 10))), 
             random.randint(TILESIZE + 10, (1920-(TILESIZE + 10))))
@@ -167,6 +168,8 @@ class Game:
     def gameOver(self):
         self.points = 0
         self.score_string = f"Score: {self.points}"
+        self.level = 1
+        self.level_string = f"Level: {self.level}"
         #Create gameover screen
     
 g = Game()
