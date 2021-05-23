@@ -45,6 +45,8 @@ class Game:
         self.pytmx_map = pytmx.load_pygame('map2.tmx')
         self.points = 0
         self.score_string = f"Score: {self.points}"
+        self.level = 1
+        self.level_string = f"Level: {self.level}"
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
@@ -54,9 +56,6 @@ class Game:
         
         self.camera = Camera(self.map.width, self.map.height)
         self.player = Player(self, 400, 70)
-        for x in range(3):
-            self.enemy = Enemy(self, random.randint(TILESIZE + 10, (3200-(TILESIZE + 10))), 
-            random.randint(TILESIZE + 10, (1920-(TILESIZE + 10))))
 
     def running (self):
         self.playing = True
@@ -92,6 +91,11 @@ class Game:
             hit.vel = vec(0, 0)
             self.points += PLAYER_POINTS
             self.score_string = f"Score: {self.points}"
+
+        if not self.mobs:
+            self.level_string = f"Level: {self.level}"
+            self.level += 1
+            self.spawnEnemies()
         
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -102,6 +106,7 @@ class Game:
         #Draw HUD
         drawPLayerHealth(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
         self.drawText(self.screen, self.score_string, 18 , 1300, 65)
+        self.drawText(self.screen, self.level_string, 18 , 1300, 90)
         pygame.display.flip() # Flip til sidst for optimering
      
 #Hit detection for the player model
@@ -140,6 +145,12 @@ class Game:
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x,y)
         surf.blit(text_surface, text_rect)
+
+    def spawnEnemies(self):
+        number_of_enemies = (self.level - 1) **2
+        for _ in range(number_of_enemies):
+            self.enemy = Enemy(self, random.randint(TILESIZE + 10, (3200-(TILESIZE + 10))), 
+            random.randint(TILESIZE + 10, (1920-(TILESIZE + 10))))
 
     def events(self):
         for event in pygame.event.get():
