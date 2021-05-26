@@ -162,6 +162,7 @@ class Game:
         self.screen.blit(self.background_image, self.background_rect)
         self.drawText(self.screen, GAME_TITLE, 40, WIDTH/2, HEIGHT/8)
         self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT*8/9)
+        #self.drawStartButton()
         pygame.display.flip()
         self.waitForStart()
     
@@ -183,11 +184,15 @@ class Game:
     def waitForStart(self):
         waiting_for_player = True
         while waiting_for_player:
+            mouse = pygame.mouse.get_pos()
+            self.drawStartButton()
+            pygame.display.flip()
             self.clock.tick (FPS) #Sætter fps cap i menuen, da der ikke er gtund til høj fps her
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     waiting_for_player = False
                     self.quit()
+
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         waiting_for_player = False
@@ -195,8 +200,19 @@ class Game:
                         waiting_for_player = False
                         self.quit()
 
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if 500 <= mouse[0] <= 900 and HEIGHT/2 <= mouse[1] <= HEIGHT/2 + 100:
+                        waiting_for_player = False
+
     def drawStartButton(self):
-        pass
+        mouse = pygame.mouse.get_pos() #opbevarer mus position i en tuple (x,y)
+        start_button_rect = pygame.Rect(500, HEIGHT/2, 400, 100)
+        if 500 <= mouse[0] <= 900 and HEIGHT/2 <= mouse[1] <= HEIGHT/2 + 100:
+            pygame.draw.rect(self.screen, LIGHTGREY, start_button_rect)
+        else:
+            pygame.draw.rect(self.screen, DARKGREY, start_button_rect)
+
+        self.drawText(self.screen, "START", 40, 700, (HEIGHT/2 + 30))
         
 
 g = Game()
