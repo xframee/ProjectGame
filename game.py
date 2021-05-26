@@ -47,6 +47,9 @@ class Game:
         self.score_string = f"Score: {self.points}"
         self.level = 1
         self.level_string = f"Level: {self.level}"
+        self.background_image = pygame.image.load("gameBackground.jpg")
+        self.background_image = pygame.transform.scale(self.background_image, (WIDTH, HEIGHT))
+        self.background_rect = self.background_image.get_rect()
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
@@ -72,6 +75,7 @@ class Game:
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
+        self.hp_string = f"{self.player.health} / 200"
 
         #Nedenfor tjekker om enemy rammer player
         isPlayerHit = pygame.sprite.groupcollide(self.mobs, self.player_group, False, False) 
@@ -105,6 +109,7 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         #Draw HUD
         drawPLayerHealth(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
+        self.drawText(self.screen, self.hp_string, 16, 60, 35)
         self.drawText(self.screen, self.score_string, 18 , 1300, 65)
         self.drawText(self.screen, self.level_string, 18 , 1300, 90)
         pygame.display.flip() # Flip til sidst for optimering
@@ -154,7 +159,7 @@ class Game:
                     self.quit()
     
     def startScreen(self):
-        self.screen.fill(LIGHTGREY)
+        self.screen.blit(self.background_image, self.background_rect)
         self.drawText(self.screen, GAME_TITLE, 40, WIDTH/2, HEIGHT/4)
         self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT/2)
         pygame.display.flip()
@@ -186,9 +191,10 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         waiting_for_player = False
+                    if event.key == pygame.K_ESCAPE:
+                        waiting_for_player = False
+                        self.quit()
 
-
-    
 g = Game()
 g.startScreen()
 while True:
