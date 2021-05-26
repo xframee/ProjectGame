@@ -138,14 +138,6 @@ class Game:
                     for obj in layer:
                         return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(SpriteToCheck)
 
-    # Fuction til at lave tekst på skærmen
-    def drawText (self, surf, text, size, x, y):
-        font = pygame.font.Font(FONT_NAME, size)
-        text_surface = font.render(text, True, WHITE)
-        text_rect = text_surface.get_rect()
-        text_rect.midtop = (x,y)
-        surf.blit(text_surface, text_rect)
-
     def spawnEnemies(self):
         number_of_enemies = round( 1 * 1.6** (self.level - 1)) #Denne mangler finpudsning
         print(number_of_enemies)
@@ -162,8 +154,11 @@ class Game:
                     self.quit()
     
     def startScreen(self):
-        pass
-        #Create greeting screen
+        self.screen.fill(LIGHTGREY)
+        self.drawText(self.screen, GAME_TITLE, 40, WIDTH/2, HEIGHT/4)
+        self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT/2)
+        pygame.display.flip()
+        self.waitForStart()
     
     def gameOver(self):
         self.points = 0
@@ -171,6 +166,28 @@ class Game:
         self.level = 1
         self.level_string = f"Level: {self.level}"
         #Create gameover screen
+
+    # Fuction til at lave tekst på skærmen
+    def drawText (self, surf, text, size, x, y):
+        font = pygame.font.Font(FONT_NAME, size)
+        text_surface = font.render(text, True, WHITE)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x,y)
+        surf.blit(text_surface, text_rect)
+
+    def waitForStart(self):
+        waiting_for_player = True
+        while waiting_for_player:
+            self.clock.tick (FPS) #Sætter fps cap i menuen, da der ikke er gtund til høj fps her
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    waiting_for_player = False
+                    self.quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        waiting_for_player = False
+
+
     
 g = Game()
 g.startScreen()

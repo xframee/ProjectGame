@@ -140,7 +140,7 @@ class Enemy(pygame.sprite.Sprite):
         
         if self.health <= 0:
             self.kill()
-            self.game.points += 100
+            self.game.points += 50
             self.game.score_string = f"Score: {self.game.points}"
 
     def drawHealth(self):
