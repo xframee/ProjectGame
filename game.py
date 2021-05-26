@@ -144,7 +144,7 @@ class Game:
                         return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(SpriteToCheck)
 
     def spawnEnemies(self):
-        number_of_enemies = round( 1 * 1.6** (self.level - 1)) #Denne mangler finpudsning
+        number_of_enemies = 2 * (self.level - 1) #Denne mangler finpudsning
         print(number_of_enemies)
         for _ in range(number_of_enemies):
             self.enemy = Enemy(self, random.randint(TILESIZE + 10, (3200-(TILESIZE + 10))), 
@@ -160,8 +160,8 @@ class Game:
     
     def startScreen(self):
         self.screen.blit(self.background_image, self.background_rect)
-        self.drawText(self.screen, GAME_TITLE, 40, WIDTH/2, HEIGHT/4)
-        self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT/2)
+        self.drawText(self.screen, GAME_TITLE, 40, WIDTH/2, HEIGHT/8)
+        self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT*8/9)
         pygame.display.flip()
         self.waitForStart()
     
@@ -194,6 +194,10 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         waiting_for_player = False
                         self.quit()
+
+    def drawStartButton(self):
+        pass
+        
 
 g = Game()
 g.startScreen()
