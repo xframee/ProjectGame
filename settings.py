@@ -21,7 +21,7 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 FONT_NAME = pygame.font.match_font('arial')
 
 # player attributes
-PLAYER_HEALTH = 200
+PLAYER_HEALTH = 10
 PLAYER_SPEED = 300
 WAND_OFFSET = vec(20,5)
 PLAYER_POINTS = 10

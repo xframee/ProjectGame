@@ -75,15 +75,17 @@ class Game:
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
-        self.hp_string = f"{self.player.health} / 200"
+        self.getPlayerHpString()
         #Nedenfor tjekker om enemy rammer player
         isPlayerHit = pygame.sprite.groupcollide(self.mobs, self.player_group, False, False) 
         for hit in isPlayerHit:
             hit.vel = vec(0, 0) #Gør så den enemy der skader playeren ikke bevæger sig lige efterw
             if self.player.canTakeDamage(): #Tjekker om der er gået tid mellem sidste slag og nyt slag
                 self.player.health -= ENEMY_DAMAGE
-                self.hp_string = f"{self.player.health} / 200"
+                self.getPlayerHpString()
                 if self.player.health <= 0:
+                    self.player.health = 0
+                    self.getPlayerHpString()
                     self.playing = False
 
         #Nedenfor tjekker for kollision mellem skud og enemies
@@ -163,14 +165,16 @@ class Game:
         self.drawText(self.screen, GAME_TITLE, 40, WIDTH/2, HEIGHT/8)
         self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT*8/9)
         pygame.display.flip()
-        self.waitForPlayer()
+        self.waitForPlayerStart()
     
     def gameOver(self):
+        game_over_string = f"YOU DIED WITH THE SCORE: {self.points}"
+        self.drawText(self.screen, game_over_string, 20, WIDTH/2, 200)
+        self.waitForPlayerRestart()
         self.points = 0
         self.score_string = f"Score: {self.points}"
         self.level = 1
         self.level_string = f"Level: {self.level}"
-        #Create gameover screen
 
     # Fuction til at lave tekst på skærmen
     def drawText (self, surf, text, size, x, y):
@@ -180,7 +184,7 @@ class Game:
         text_rect.center = (x,y)
         surf.blit(text_surface, text_rect)
 
-    def waitForPlayer(self):
+    def waitForPlayerStart(self):
         waiting_for_player = True
         while waiting_for_player:
             mouse = pygame.mouse.get_pos()
@@ -203,6 +207,30 @@ class Game:
                     if 500 <= mouse[0] <= 900 and HEIGHT/2 <= mouse[1] <= HEIGHT/2 + 100:
                         waiting_for_player = False
 
+    def waitForPlayerRestart(self):
+        waiting_for_player = True
+        while waiting_for_player:
+            mouse = pygame.mouse.get_pos()
+            self.drawButtonWithText(550, HEIGHT - 200, 300, 50, "RESTART")
+            self.drawButtonWithText(550, HEIGHT - 100, 300, 50, "QUIT")
+            pygame.display.flip()
+            self.clock.tick (FPS) #Sætter fps cap i menuen, da der ikke er gtund til høj fps her
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    waiting_for_player = False
+                    self.quit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        waiting_for_player = False
+                        self.quit()
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if 550 <= mouse[0] <= 850 and HEIGHT-200 <= mouse[1] <= HEIGHT-200+50:
+                        waiting_for_player = False
+                    if 550 <= mouse[0] <= 850 and HEIGHT-100 <= mouse[1] <= HEIGHT-100+50:
+                        self.quit()
+
     def drawButtonWithText(self, x, y, w, h, txt):
         mouse = pygame.mouse.get_pos() #opbevarer mus position i en tuple (x,y)
         start_button_rect = pygame.Rect(x, y, w, h)
@@ -215,6 +243,9 @@ class Game:
         rect_centery = (2 * y + h) / 2
         self.drawText(self.screen, txt, 40, rect_centerx, rect_centery)
         
+
+    def getPlayerHpString(self):
+        self.hp_string = f"{self.player.health} / {PLAYER_HEALTH}"
 
 g = Game()
 g.startScreen()
