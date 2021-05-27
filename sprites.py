@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.vel = vec (0,0) #Velocity
         self.pos = vec (x,y) #Position
         self.game = game
-        self.image_not_flipped = pygame.image.load('player1.png')
+        self.image_not_flipped = pygame.image.load('GameImages\player1.png')
         self.image = self.image_not_flipped
         self.image_not_flipped.set_colorkey(BLACK)
         self.image.set_colorkey(BLACK)
@@ -112,7 +112,7 @@ class Enemy(pygame.sprite.Sprite):
         self.groups = game.all_sprites, game.mobs
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pygame.image.load('enemy1.png')
+        self.image = pygame.image.load('GameImages\enemy1.png')
         self.rect = self.image.get_rect()
         self.pos = vec (x, y)
         self.vel = vec (0, 0)
@@ -123,7 +123,7 @@ class Enemy(pygame.sprite.Sprite):
         
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1,0))
-        self.image = pygame.image.load('enemy1.png') #Loader billedet hver frame, for at få HP-bar til at virke - skidt optimering
+        self.image = pygame.image.load('GameImages\enemy1.png') #Loader billedet hver frame, for at få HP-bar til at virke - skidt optimering
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
         self.acc = vec (MOB_SPEED, 0).rotate(-self.rot)
@@ -154,7 +154,7 @@ class Projectile (pygame.sprite.Sprite):
         self.groups = game.all_sprites, game.projectiles
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image_not_rotated = pygame.image.load('PlayerProjectile.png')
+        self.image_not_rotated = pygame.image.load('GameImages\PlayerProjectile.png')
         self.image = self.image_not_rotated
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()

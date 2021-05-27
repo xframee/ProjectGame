@@ -47,7 +47,7 @@ class Game:
         self.score_string = f"Score: {self.points}"
         self.level = 1
         self.level_string = f"Level: {self.level}"
-        self.background_image = pygame.image.load("gameBackground.jpg")
+        self.background_image = pygame.image.load("GameImages\gameBackground.jpg")
         self.background_image = pygame.transform.scale(self.background_image, (WIDTH, HEIGHT))
         self.background_rect = self.background_image.get_rect()
 
@@ -76,13 +76,13 @@ class Game:
         self.all_sprites.update()
         self.camera.update(self.player)
         self.hp_string = f"{self.player.health} / 200"
-
         #Nedenfor tjekker om enemy rammer player
         isPlayerHit = pygame.sprite.groupcollide(self.mobs, self.player_group, False, False) 
         for hit in isPlayerHit:
             hit.vel = vec(0, 0) #Gør så den enemy der skader playeren ikke bevæger sig lige efterw
             if self.player.canTakeDamage(): #Tjekker om der er gået tid mellem sidste slag og nyt slag
                 self.player.health -= ENEMY_DAMAGE
+                self.hp_string = f"{self.player.health} / 200"
                 if self.player.health <= 0:
                     self.playing = False
 
@@ -164,9 +164,10 @@ class Game:
         self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT*8/9)
         #self.drawStartButton()
         pygame.display.flip()
-        self.waitForStart()
+        self.waitForPlayer()
     
     def gameOver(self):
+        self.waitForPlayer()
         self.points = 0
         self.score_string = f"Score: {self.points}"
         self.level = 1
@@ -181,7 +182,7 @@ class Game:
         text_rect.midtop = (x,y)
         surf.blit(text_surface, text_rect)
 
-    def waitForStart(self):
+    def waitForPlayer(self):
         waiting_for_player = True
         while waiting_for_player:
             mouse = pygame.mouse.get_pos()
