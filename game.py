@@ -36,6 +36,7 @@ class Game:
         pygame.display.set_caption(GAME_TITLE)
         self.clock = pygame.time.Clock()
         pygame.key.set_repeat(10, 100)
+        self.loadData()
         self.setup()
 
     def setup(self):
@@ -50,6 +51,14 @@ class Game:
         self.background_image = pygame.image.load("GameImages\gameBackground.jpg")
         self.background_image = pygame.transform.scale(self.background_image, (WIDTH, HEIGHT))
         self.background_rect = self.background_image.get_rect()
+
+    def loadData(self): #load fil der gemmer highscore
+        with open("gameAttibutes\highScore.txt", 'r') as file: #with sørger for, at filen lukkes efter brug
+        #Exception sørger for at programmet ikke crasher, hvis filen er tom - er deb tom sætte HS til 0
+            try:
+                self.highscore = int(file.read())
+            except:
+                self.highscore = 0
 
     def newSprite(self):
         self.all_sprites = pygame.sprite.Group()
@@ -114,6 +123,7 @@ class Game:
         self.drawText(self.screen, self.hp_string, 16, 60, 40)
         self.drawText(self.screen, self.score_string, 18 , 1300, 65)
         self.drawText(self.screen, self.level_string, 18 , 1300, 90)
+        self.drawText(self.screen, "HighScore: " + str(self.highscore), 18, 1300, 115)
         pygame.display.flip() # Flip til sidst for optimering
      
 #Hit detection for the player model
@@ -147,7 +157,6 @@ class Game:
 
     def spawnEnemies(self):
         number_of_enemies = 2 * (self.level - 1) #Denne mangler finpudsning
-        print(number_of_enemies)
         for _ in range(number_of_enemies):
             self.enemy = Enemy(self, random.randint(TILESIZE + 10, (3200-(TILESIZE + 10))), 
             random.randint(TILESIZE + 10, (1920-(TILESIZE + 10))))
@@ -164,12 +173,23 @@ class Game:
         self.screen.blit(self.background_image, self.background_rect)
         self.drawText(self.screen, GAME_TITLE, 40, WIDTH/2, HEIGHT/8)
         self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT*8/9)
+        self.drawText(self.screen, "High score: " + str(self.highscore), 40, WIDTH/2, HEIGHT/4)
         pygame.display.flip()
         self.waitForPlayerStart()
     
     def gameOver(self):
         game_over_string = f"YOU DIED WITH THE SCORE: {self.points}"
-        self.drawText(self.screen, game_over_string, 20, WIDTH/2, 200)
+        self.drawText(self.screen, game_over_string, 30, WIDTH/2, 100)
+
+        if self.points > self.highscore:
+            self.highscore = self.points
+            self.drawText(self.screen, "NEW HIGHSCORE!!!", 30, WIDTH/2, 250)
+            with open ("gameAttibutes\highScore.txt", 'w') as file:
+                file.write(str(self.points))
+        
+        else:
+            self.drawText(self.screen, "High score: " + str(self.highscore), 30, WIDTH/2, 250)
+
         self.waitForPlayerRestart()
         self.points = 0
         self.score_string = f"Score: {self.points}"
