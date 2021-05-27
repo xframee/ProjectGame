@@ -109,7 +109,7 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         #Draw HUD
         drawPLayerHealth(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
-        self.drawText(self.screen, self.hp_string, 16, 60, 35)
+        self.drawText(self.screen, self.hp_string, 16, 60, 40)
         self.drawText(self.screen, self.score_string, 18 , 1300, 65)
         self.drawText(self.screen, self.level_string, 18 , 1300, 90)
         pygame.display.flip() # Flip til sidst for optimering
@@ -162,12 +162,10 @@ class Game:
         self.screen.blit(self.background_image, self.background_rect)
         self.drawText(self.screen, GAME_TITLE, 40, WIDTH/2, HEIGHT/8)
         self.drawText(self.screen, "press the button or space to start", 40, WIDTH/2, HEIGHT*8/9)
-        #self.drawStartButton()
         pygame.display.flip()
         self.waitForPlayer()
     
     def gameOver(self):
-        self.waitForPlayer()
         self.points = 0
         self.score_string = f"Score: {self.points}"
         self.level = 1
@@ -179,14 +177,14 @@ class Game:
         font = pygame.font.Font(FONT_NAME, size)
         text_surface = font.render(text, True, WHITE)
         text_rect = text_surface.get_rect()
-        text_rect.midtop = (x,y)
+        text_rect.center = (x,y)
         surf.blit(text_surface, text_rect)
 
     def waitForPlayer(self):
         waiting_for_player = True
         while waiting_for_player:
             mouse = pygame.mouse.get_pos()
-            self.drawStartButton()
+            self.drawButtonWithText(500, HEIGHT/2, 400, 100, "START")
             pygame.display.flip()
             self.clock.tick (FPS) #Sætter fps cap i menuen, da der ikke er gtund til høj fps her
             for event in pygame.event.get():
@@ -205,15 +203,17 @@ class Game:
                     if 500 <= mouse[0] <= 900 and HEIGHT/2 <= mouse[1] <= HEIGHT/2 + 100:
                         waiting_for_player = False
 
-    def drawStartButton(self):
+    def drawButtonWithText(self, x, y, w, h, txt):
         mouse = pygame.mouse.get_pos() #opbevarer mus position i en tuple (x,y)
-        start_button_rect = pygame.Rect(500, HEIGHT/2, 400, 100)
-        if 500 <= mouse[0] <= 900 and HEIGHT/2 <= mouse[1] <= HEIGHT/2 + 100:
+        start_button_rect = pygame.Rect(x, y, w, h)
+        if x <= mouse[0] <= x + w and y <= mouse[1] <= y + h:
             pygame.draw.rect(self.screen, LIGHTGREY, start_button_rect)
         else:
             pygame.draw.rect(self.screen, DARKGREY, start_button_rect)
 
-        self.drawText(self.screen, "START", 40, 700, (HEIGHT/2 + 30))
+        rect_centerx = (2 * x + w) / 2
+        rect_centery = (2 * y + h) / 2
+        self.drawText(self.screen, txt, 40, rect_centerx, rect_centery)
         
 
 g = Game()
