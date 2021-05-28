@@ -30,8 +30,8 @@ class Game:
 
     def __init__ (self):
         pygame.init()
-        #os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame") 
-        os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
+        os.chdir("/Users/alissahansen/Documents/GitHub/ProjectGame") 
+        #os.chdir(r"C:\Users\Bandit\Desktop\RUC\Kurser\SD\ProjectGame")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(GAME_TITLE)
         self.clock = pygame.time.Clock()
@@ -109,8 +109,8 @@ class Game:
 
         if not self.mobs:
             self.level_string = f"Level: {self.level}"
-            self.level += 1
             self.spawnEnemies()
+            self.level += 1
         
     def drawToScreen(self):
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
