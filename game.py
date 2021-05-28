@@ -156,7 +156,7 @@ class Game:
                         return pygame.Rect (obj.x, obj.y, obj.width, obj.height).colliderect(SpriteToCheck)
 
     def spawnEnemies(self):
-        number_of_enemies = 2 * (self.level - 1) #Denne mangler finpudsning
+        number_of_enemies = 2 * self.level #Denne mangler finpudsning
         for _ in range(number_of_enemies):
             self.enemy = Enemy(self, random.randint(TILESIZE + 10, (3200-(TILESIZE + 10))), 
             random.randint(TILESIZE + 10, (1920-(TILESIZE + 10))))
