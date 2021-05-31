@@ -119,7 +119,7 @@ class Enemy(pygame.sprite.Sprite):
         self.acc = vec (0, 0) #Acceleration
         self.image.set_colorkey(BLACK)
         self.rot = 0
-        self.health = ENEMY_HEALTH
+        self.health = ENEMY_HEALTH + ((self.game.level - 1) * 10)
         
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1,0))
