@@ -126,9 +126,9 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.image.load('GameImages\enemy1.png') #Loader billedet hver frame, for at få HP-bar til at virke - skidt optimering
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
-        self.acc = vec (MOB_SPEED, 0).rotate(-self.rot)
-        self.acc += self.vel * -1
-        self.vel += self.acc * self.game.dt
+        self.acc = vec (MOB_SPEED, 0).rotate(-self.rot) #Fjenden løber fremad, men roteret så den vender mod spilleren
+        self.acc += self.vel * -1 #jo hurtigere han bevæger sig, jo mindre bliver accelerationen - dette capper accelerationen
+        self.vel += self.acc * self.game.dt 
 
         if (self.game.hitDetectionTopTrees(self.rect) or self.game.hitDetectionLeftTrees(self.rect) 
         or self.game.hitDetectionRightTrees(self.rect) 
